@@ -1,0 +1,49 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-selector/iron-selectable.html">
+
+<dom-module id="gig-radio-group">
+
+    <style>
+    :host ::content > * {
+        padding: 6px;
+    }
+
+
+    </style>
+
+    <template>
+        <content select="gig-radio" id="c"></content>
+    </template>
+
+    <script>
+        (function() {
+            var self;
+            Polymer({
+                is: 'gig-radio-group',
+                ready: function() {
+                    this._checked();
+                },
+                behaviors: [
+                  Polymer.IronSelectableBehavior
+                ],
+                _checked: function() {
+                    var last;
+
+                    for (var i = 0; i < this.children.length; i++) {
+                        if (this.children[i].getAttribute('checked') != null) {
+                            this.children[i].removeAttribute('checked');
+                            last = i;
+                        }
+                    }
+                    Polymer.dom(this.items[last]).setAttribute('checked', true);
+                },
+                select: function(index) {
+                    for (var i = 0; i < this.items.length; i++) {
+                        if (i != index) this.items[i].checked = false;
+                    }
+                }
+            })
+        })();
+    </script>
+
+</dom-module>
